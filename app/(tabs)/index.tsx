@@ -1,4 +1,3 @@
-import { Link } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 export default function HomeScreen() {
@@ -22,7 +21,6 @@ export default function HomeScreen() {
       >
         Home Screen
       </Text>
-      <Link href={"/test"}>Modal</Link>
       <TextInput
         placeholder='Type here to see'
         onChangeText={(newText) => setText(newText)}
