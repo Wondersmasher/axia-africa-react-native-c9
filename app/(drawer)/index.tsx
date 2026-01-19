@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function Chats() {
   return (
     <View style={styles.container}>
-      <Text style={styles.textElement}>Home</Text>
+      <Text style={styles.textElement}>React Hook Form</Text>
     </View>
   );
 }
