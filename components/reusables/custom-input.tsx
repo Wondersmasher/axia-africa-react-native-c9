@@ -6,12 +6,14 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import {
+  ColorValue,
   StyleProp,
   StyleSheet,
   Text,
   TextInput,
   TextStyle,
   View,
+  ViewStyle,
 } from "react-native";
 
 type CustomInputProps<T extends FieldValues> = {
@@ -21,6 +23,10 @@ type CustomInputProps<T extends FieldValues> = {
   rules?: RegisterOptions<T, Path<T>>;
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
+  errorText?: StyleProp<TextStyle>;
+  textInputWithErrorContainer?: StyleProp<ViewStyle>;
+  textInputContainer?: StyleProp<ViewStyle>;
+  placeholderTextColor?: ColorValue;
 };
 function CustomInput<T extends FieldValues>({
   control,
@@ -29,6 +35,10 @@ function CustomInput<T extends FieldValues>({
   rules,
   label,
   labelStyle,
+  textInputWithErrorContainer,
+  textInputContainer,
+  errorText,
+  placeholderTextColor = "white",
 }: CustomInputProps<T>) {
   return (
     <Controller
@@ -38,19 +48,27 @@ function CustomInput<T extends FieldValues>({
         field: { onChange, onBlur, value },
         fieldState: { error },
       }) => (
-        <View style={styles.textInputWithErrorContainer}>
+        <View
+          style={[
+            styles.textInputWithErrorContainer,
+            textInputWithErrorContainer,
+          ]}
+        >
           {label && (
             <Text style={[styles.labelStyle, labelStyle]}>{label}</Text>
           )}
-          <View style={styles.textInputContainer}>
+          <View style={[styles.textInputContainer, textInputContainer]}>
             <TextInput
               placeholder={placeholder}
+              placeholderTextColor={placeholderTextColor}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
           </View>
-          {error && <Text style={styles.errorText}>{error.message}</Text>}
+          {error && (
+            <Text style={[styles.errorText, errorText]}>{error.message}</Text>
+          )}
         </View>
       )}
       name={name}

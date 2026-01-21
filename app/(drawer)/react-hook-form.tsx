@@ -50,6 +50,13 @@ export default function ReactHookForm() {
             },
           }}
           label='Email'
+          errorText={{
+            color: "green",
+            fontSize: 30,
+          }}
+          textInputContainer={{
+            backgroundColor: "green",
+          }}
         />
         <CustomInput
           control={control}
