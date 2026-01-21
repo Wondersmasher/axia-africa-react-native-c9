@@ -1,39 +1,30 @@
-import { Controller, useForm } from "react-hook-form";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { CustomInput } from "@/components/reusables";
+import { useForm } from "react-hook-form";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 type Inputs = {
   email: string;
   firstName: string;
   lastName: string;
   age: string;
+  gender: string;
 };
 export default function ReactHookForm() {
-  const email = "axiaafrica@gmail.com";
-  const firstName = "Axia";
-  const lastName = "Africa";
-  const {
-    control,
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>({
+  const email = "";
+  const firstName = "";
+  const lastName = "";
+  const { control, handleSubmit, setValue, reset, watch } = useForm<Inputs>({
     defaultValues: {
       email, // =>  email: email
       firstName, // => firstName:firstName
       lastName, // => lastName:lastName
       age: "",
+      gender: "",
     },
   });
 
-  //   console.log(errors, "errors from handleSubmit");
+  const gender = watch("gender");
+
   const onSubmit = ({ email, firstName, lastName }: Inputs) => {
     console.log(
       `My email is: ${email}, and my full name is: ${firstName} ${lastName}`,
@@ -44,7 +35,48 @@ export default function ReactHookForm() {
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <Text style={styles.textElement}>React Hook Form</Text>
-        <Controller
+        <CustomInput
+          control={control}
+          name='email'
+          placeholder='hello@gmail.com'
+          rules={{
+            required: {
+              value: true,
+              message: "Email is required!",
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Invalid email address",
+            },
+          }}
+          label='Email'
+        />
+        <CustomInput
+          control={control}
+          name='firstName'
+          placeholder='John'
+          rules={{
+            required: {
+              value: true,
+              message: "First name is required!",
+            },
+          }}
+          label='First name'
+        />
+        <CustomInput
+          control={control}
+          name='age'
+          placeholder='1000000'
+          rules={{
+            required: {
+              value: true,
+              message: "Age is required!",
+            },
+          }}
+          label='Age'
+          labelStyle={{ color: "green", fontSize: 24, fontWeight: 800 }}
+        />
+        {/* <Controller
           control={control}
           rules={{
             required: {
@@ -72,8 +104,8 @@ export default function ReactHookForm() {
             </View>
           )}
           name='email'
-        />
-        <Controller
+        /> */}
+        {/* <Controller
           control={control}
           rules={{
             required: {
@@ -151,10 +183,50 @@ export default function ReactHookForm() {
             </View>
           )}
           name='age'
-        />
+        /> */}
+
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            gap: 20,
+          }}
+        >
+          <Pressable
+            style={[
+              styles.button,
+              {
+                flex: 1,
+              },
+            ]}
+            onPress={() => setValue("gender", "Male")}
+          >
+            <Text style={[styles.buttonText, { textAlign: "center" }]}>
+              Male
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.button,
+              {
+                flex: 1,
+                width: "100%",
+              },
+            ]}
+            onPress={() => setValue("gender", "Female")}
+          >
+            <Text style={[styles.buttonText, { textAlign: "center" }]}>
+              Female
+            </Text>
+          </Pressable>
+          <Text>{gender}</Text>
+        </View>
 
         <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.buttonText}>Console.log()</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={() => reset()}>
+          <Text style={styles.buttonText}>Reset</Text>
         </Pressable>
       </View>
     </ScrollView>
@@ -203,5 +275,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+    textAlign: "left",
   },
 });
