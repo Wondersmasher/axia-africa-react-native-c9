@@ -1,53 +1,25 @@
 import { CustomInput } from "@/components/reusables";
+import { inputSchema, TInputSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import * as z from "zod";
-type Inputs = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  age: string;
-  gender: string;
-};
-const inputSchema = z.object({
-  email: z.email("Invalid email provided."),
-  firstName: z
-    .string()
-    .min(2, "First name must be at least 2 characters!")
-    .max(20, "No name can be more than 20 characters. Check again!!!"),
-  lastName: z
-    .string()
-    .min(2, "Last name must be at least 2 characters!")
-    .max(15, "Your last name cannot be more than 15 characters"),
-  age: z.string().min(1, "Invalid age"),
-  gender: z.string(),
-});
-
-// const InputSchema = z.input<typeof schema>, any, z.output<typeof schema>
 
 export default function ReactHookForm() {
-  const email = "";
-  const firstName = "";
-  const lastName = "";
-  const { control, handleSubmit, setValue, reset, watch } = useForm<
-    z.input<typeof inputSchema>,
-    any,
-    z.output<typeof inputSchema>
-  >({
-    defaultValues: {
-      email, // =>  email: email
-      firstName, // => firstName:firstName
-      lastName, // => lastName:lastName
-      age: "",
-      gender: "",
-    },
-    resolver: zodResolver(inputSchema),
-  });
+  const { control, handleSubmit, setValue, reset, watch } =
+    useForm<TInputSchema>({
+      defaultValues: {
+        email: "",
+        firstName: "",
+        lastName: "",
+        age: "",
+        gender: "",
+      },
+      resolver: zodResolver(inputSchema),
+    });
 
   const gender = watch("gender");
 
-  const onSubmit = ({ email, firstName, lastName }: Inputs) => {
+  const onSubmit = ({ email, firstName, lastName }: TInputSchema) => {
     console.log(
       `My email is: ${email}, and my full name is: ${firstName} ${lastName}`,
     );
