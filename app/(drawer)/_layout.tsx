@@ -26,6 +26,12 @@ const Layout = () => {
           title: "React Hook Form",
         }}
       />
+      <Drawer.Screen
+        name='react-hook-form-zod'
+        options={{
+          title: "React Hook Form With Zod",
+        }}
+      />
     </Drawer>
   );
 };
