@@ -16,4 +16,14 @@ export const inputSchema = z.object({
   gender: z.string(),
 });
 
+export const loginSchema = z.object({
+  email: z.email("Invalid email provided"),
+  name: z
+    .string("This is not a string")
+    .min(2, "Name is too short!")
+    .max(20, "Name is too long!"),
+  role: z.enum(["user", "admin"], "Role must either be a user or admin!"),
+});
+
 export type TInputSchema = z.infer<typeof inputSchema>;
+export type TLoginSchema = z.infer<typeof loginSchema>;

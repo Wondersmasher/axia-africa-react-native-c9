@@ -1,25 +1,32 @@
+import { useSession } from "@/store";
 import { Drawer } from "expo-router/drawer";
 
 const Layout = () => {
+  const { user } = useSession((state) => state);
+
   return (
     <Drawer
       screenOptions={{
         drawerHideStatusBarOnOpen: true,
       }}
     >
-      <Drawer.Screen
-        name='(tabs)'
-        options={{
-          title: "Tabs",
-          headerShown: false,
-        }}
-      />
-      <Drawer.Screen
-        name='index'
-        options={{
-          title: "Manual",
-        }}
-      />
+      <Drawer.Protected guard={user?.role === "admin"}>
+        <Drawer.Screen
+          name='(tabs)'
+          options={{
+            title: "Admins Only",
+            headerShown: false,
+          }}
+        />
+      </Drawer.Protected>
+      <Drawer.Protected guard={user?.role === "user"}>
+        <Drawer.Screen
+          name='index'
+          options={{
+            title: "Manual",
+          }}
+        />
+      </Drawer.Protected>
       <Drawer.Screen
         name='react-hook-form'
         options={{

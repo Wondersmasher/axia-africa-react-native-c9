@@ -1,4 +1,5 @@
 // import { useForm } from "react-hook-form";
+import { useSession } from "@/store";
 import { useState } from "react";
 import {
   Pressable,
@@ -13,6 +14,10 @@ export default function Manual() {
   const [email, setEmail] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
+
+  const {
+    actions: { logOut },
+  } = useSession((state) => state);
 
   return (
     <ScrollView style={styles.container}>
@@ -42,16 +47,8 @@ export default function Manual() {
             id='lastName'
           />
         </View>
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            if (!email || !firstName || !lastName) return;
-            console.log(
-              `My email is: ${email}, and my full name is: ${firstName} ${lastName}`,
-            );
-          }}
-        >
-          <Text style={styles.buttonText}>Console.log()</Text>
+        <Pressable style={styles.button} onPress={logOut}>
+          <Text style={styles.buttonText}>Log out</Text>
         </Pressable>
       </View>
     </ScrollView>
