@@ -104,6 +104,7 @@ export default function ReactHookForm() {
           <Text style={styles.buttonText}>Create dummy details</Text>
         </Pressable>
         <Link href='/(drawer)'>Go to drawer</Link>
+        <Link href='/dynamic'>Go to dynamic page</Link>
       </View>
     </ScrollView>
   );
