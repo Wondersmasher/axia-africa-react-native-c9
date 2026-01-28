@@ -34,10 +34,7 @@ export default function RootLayout() {
             options={{ headerShown: false, title: "Home page" }}
           />
         </Stack.Protected>
-        <Stack.Screen
-          name='(dynamic)'
-          options={{ headerShown: true, title: "Dynamic page" }}
-        />
+        <Stack.Screen name='(dynamic)' options={{ headerShown: false }} />
       </Stack>
 
       <StatusBar style='auto' />

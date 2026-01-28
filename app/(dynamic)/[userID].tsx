@@ -2,7 +2,13 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
 import { Text, View } from "react-native";
 const UserPage = () => {
-  const { userID } = useLocalSearchParams<{ userID: string }>();
+  const { userID, doubleID, tripleID } = useLocalSearchParams<{
+    userID: string;
+    doubleID?: string;
+    tripleID?: string;
+  }>();
+
+  console.log(userID, doubleID, tripleID);
 
   const foundUser = useMemo(
     () => users.find((user) => user.id === userID),
@@ -12,6 +18,7 @@ const UserPage = () => {
   if (!foundUser) {
     return (
       <View>
+        <Stack.Screen options={{ title: "User Not Found" }} />
         <Text>User not found</Text>
       </View>
     );
@@ -44,5 +51,10 @@ const users = [
     name: "John Doe",
     id: "3",
     role: "Super Admin",
+  },
+  {
+    name: "John Doe 2",
+    id: "4",
+    role: "Admin",
   },
 ];
