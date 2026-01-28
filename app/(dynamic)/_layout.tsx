@@ -23,6 +23,14 @@ export default function RootLayout() {
           name='[userID]'
           options={{ headerShown: true, title: "User Page" }}
         />
+        <Stack.Screen
+          name='modal'
+          options={{
+            headerShown: true,
+            title: "Modal Page",
+            presentation: "modal",
+          }}
+        />
       </Stack>
     </React.Fragment>
   );

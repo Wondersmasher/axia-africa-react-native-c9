@@ -25,6 +25,7 @@ const Index = () => {
             </Link>
           );
         })}
+      <Link href='/(dynamic)/modal'>Open Expo Modal</Link>
     </View>
   );
 };

@@ -1,7 +1,10 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useMemo } from "react";
-import { Text, View } from "react-native";
+import { useMemo, useState } from "react";
+import { Alert, Modal, Pressable, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 const UserPage = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const { userID, doubleID, tripleID } = useLocalSearchParams<{
     userID: string;
     doubleID?: string;
@@ -24,13 +27,71 @@ const UserPage = () => {
     );
   }
 
+  const showAlertModal = () => {
+    Alert.alert(
+      "Sign Out?",
+      `Are you sure you want to sign out of the application? \n Click Ok to continue`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            console.log("Cancel was pressed!!");
+          },
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            console.log("Ok was pressed!!... Sign out completed successfully");
+          },
+        },
+      ],
+    );
+  };
+
   return (
-    <View>
-      <Stack.Screen options={{ title: foundUser.name }} />
-      <Text>User ID page with userID: {userID}</Text>
-      <Text>My name is: {foundUser.name}</Text>
-      <Text>My role in Axia Africa is: {foundUser.role}</Text>
-    </View>
+    <SafeAreaView>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Stack.Screen options={{ title: foundUser.name }} />
+        <Text>User ID page with userID: {userID}</Text>
+        <Text>My name is: {foundUser.name}</Text>
+        <Text>My role in Axia Africa is: {foundUser.role}</Text>
+
+        <Modal
+          animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View>
+              <Text>Hello World!</Text>
+              <Pressable onPress={() => setModalVisible(!modalVisible)}>
+                <Text>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
+        <Pressable
+          style={{ padding: 20, backgroundColor: "red" }}
+          // onPress={showAlertModal}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={{ color: "white", fontSize: 20, borderRadius: 10 }}>
+            Logout
+          </Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
 };
 
