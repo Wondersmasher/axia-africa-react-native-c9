@@ -9,6 +9,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useSession } from "@/store";
 import { Stack } from "expo-router";
+import "../global.css";
 
 // export const unstable_settings = {
 //   anchor: "(tabs)",
@@ -35,6 +36,10 @@ export default function RootLayout() {
           />
         </Stack.Protected>
         <Stack.Screen name='(dynamic)' options={{ headerShown: false }} />
+        <Stack.Screen
+          name='native-wind'
+          options={{ headerShown: true, title: "Native Wind" }}
+        />
       </Stack>
 
       <StatusBar style='auto' />

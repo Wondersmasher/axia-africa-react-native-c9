@@ -105,6 +105,7 @@ export default function ReactHookForm() {
         </Pressable>
         <Link href='/(drawer)'>Go to drawer</Link>
         <Link href='/(dynamic)'>Go to dynamic page</Link>
+        <Link href='/native-wind'>Go to Native Wind page</Link>
       </View>
     </ScrollView>
   );

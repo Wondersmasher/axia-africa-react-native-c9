@@ -1,7 +1,7 @@
 import { useSession } from "@/store";
 import { Drawer } from "expo-router/drawer";
 
-const Layout = () => {
+export default function Layout() {
   const { user } = useSession((state) => state);
 
   return (
@@ -41,5 +41,5 @@ const Layout = () => {
       />
     </Drawer>
   );
-};
-export default Layout;
+}
+// export default Layout;
