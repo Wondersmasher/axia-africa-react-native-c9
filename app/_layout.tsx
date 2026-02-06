@@ -23,7 +23,7 @@ export default function RootLayout() {
   const { user } = useSession((state) => state);
 
   return (
-    <GluestackUIProvider mode='dark'>
+    <GluestackUIProvider mode='light'>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Protected guard={!user}>

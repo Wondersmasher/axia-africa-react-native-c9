@@ -1,4 +1,4 @@
-import { CustomInput } from "@/components/reusables";
+import { CustomInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 

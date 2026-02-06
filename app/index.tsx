@@ -1,4 +1,4 @@
-import { CustomInput } from "@/components/reusables";
+import { CustomInput } from "@/components";
 import { useSession } from "@/store";
 import { loginSchema, TLoginSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";

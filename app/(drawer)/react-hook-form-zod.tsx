@@ -1,4 +1,4 @@
-import { CustomInput } from "@/components/reusables";
+import { CustomInput } from "@/components";
 import { inputSchema, TInputSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
