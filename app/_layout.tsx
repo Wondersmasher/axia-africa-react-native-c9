@@ -11,8 +11,7 @@ import { useSession } from "@/store";
 import { Stack } from "expo-router";
 import "../global.css";
 
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import '@/global.css';
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 
 // export const unstable_settings = {
 //   anchor: "(tabs)",
@@ -24,32 +23,25 @@ export default function RootLayout() {
   const { user } = useSession((state) => state);
 
   return (
-    
-    <GluestackUIProvider mode="dark">
+    <GluestackUIProvider mode='dark'>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Protected guard={!user}>
-          <Stack.Screen
-            name='index'
-            options={{ headerShown: true, title: "Sign in" }}
-          />
-        </Stack.Protected>
-        <Stack.Protected guard={!!user}>
-          <Stack.Screen
-            name='(drawer)'
-            options={{ headerShown: false, title: "Home page" }}
-          />
-        </Stack.Protected>
-        <Stack.Screen name='(dynamic)' options={{ headerShown: false }} />
-        <Stack.Screen
-          name='native-wind'
-          options={{ headerShown: true, title: "Native Wind" }}
-        />
-      </Stack>
-
-      <StatusBar style='auto' />
-    </ThemeProvider>
+        <Stack>
+          <Stack.Protected guard={!user}>
+            <Stack.Screen
+              name='index'
+              options={{ headerShown: true, title: "Sign in" }}
+            />
+          </Stack.Protected>
+          <Stack.Protected guard={!!user}>
+            <Stack.Screen
+              name='(drawer)'
+              options={{ headerShown: false, title: "Home page" }}
+            />
+          </Stack.Protected>
+          <Stack.Screen name='(dynamic)' options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style='auto' />
+      </ThemeProvider>
     </GluestackUIProvider>
-  
   );
 }

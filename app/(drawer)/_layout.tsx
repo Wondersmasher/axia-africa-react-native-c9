@@ -39,6 +39,8 @@ export default function Layout() {
           title: "React Hook Form With Zod",
         }}
       />
+      <Drawer.Screen name='native-wind' options={{ title: "Native Wind" }} />
+      <Drawer.Screen name='gluestack' options={{ title: "GlueStack" }} />
     </Drawer>
   );
 }
