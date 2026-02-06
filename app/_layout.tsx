@@ -11,6 +11,9 @@ import { useSession } from "@/store";
 import { Stack } from "expo-router";
 import "../global.css";
 
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import '@/global.css';
+
 // export const unstable_settings = {
 //   anchor: "(tabs)",
 // };
@@ -21,7 +24,9 @@ export default function RootLayout() {
   const { user } = useSession((state) => state);
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    
+    <GluestackUIProvider mode="dark">
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Protected guard={!user}>
           <Stack.Screen
@@ -44,5 +49,7 @@ export default function RootLayout() {
 
       <StatusBar style='auto' />
     </ThemeProvider>
+    </GluestackUIProvider>
+  
   );
 }
