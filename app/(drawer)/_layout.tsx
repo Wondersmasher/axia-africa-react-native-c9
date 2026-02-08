@@ -40,7 +40,10 @@ export default function Layout() {
         }}
       />
       <Drawer.Screen name='native-wind' options={{ title: "Native Wind" }} />
-      <Drawer.Screen name='gluestack' options={{ title: "GlueStack" }} />
+      <Drawer.Screen
+        name='gluestack'
+        options={{ headerShown: false, title: "GlueStack" }}
+      />
     </Drawer>
   );
 }
