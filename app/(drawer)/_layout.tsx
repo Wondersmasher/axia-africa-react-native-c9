@@ -44,6 +44,14 @@ export default function Layout() {
         name='gluestack'
         options={{ headerShown: false, title: "GlueStack" }}
       />
+      <Drawer.Screen
+        name='tailwind-utilities'
+        options={{ headerShown: false, title: "Tailwind Utilities" }}
+      />
+      <Drawer.Screen
+        name='platform-specific'
+        options={{ headerShown: false, title: "Platform Specific Code" }}
+      />
     </Drawer>
   );
 }
