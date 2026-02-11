@@ -52,6 +52,10 @@ export default function Layout() {
         name='platform-specific'
         options={{ headerShown: false, title: "Platform Specific Code" }}
       />
+      <Drawer.Screen
+        name='persisting'
+        options={{ headerShown: false, title: "Persisting" }}
+      />
     </Drawer>
   );
 }
