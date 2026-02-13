@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
+import * as Keychain from "react-native-keychain";
 export type StoreDataType = {
   key: string;
   value: any;
 };
 
-export type StorageType = "async-storage" | "secure-store";
+export type StorageType = "async-storage" | "secure-store" | "keychain";
 
 export type AllStoreDataType = {
   data: StoreDataType;
@@ -26,7 +27,23 @@ const storeDataSecureStore = async (data: StoreDataType) => {
       `The item was stored properly through Secure Store with key: ${data.key} and value: ${stringifiedValue}`,
     );
   } catch (error) {
-    console.log(`Error setting item through AsyncStorage with error: ${error}`);
+    console.log(`Error setting item through Secure Store with error: ${error}`);
+  }
+};
+const storeDataKeychain = async (data: StoreDataType) => {
+  try {
+    if (!data.value)
+      return Alert.alert(
+        "No value added",
+        "You did not provide any valid value. Is it a bug or a FEATURE!",
+      );
+    const stringifiedValue = JSON.stringify(data.value);
+    await Keychain.setGenericPassword(data.key, stringifiedValue);
+    console.log(
+      `The item was stored properly through Keychain with key: ${data.key} and value: ${stringifiedValue}`,
+    );
+  } catch (error) {
+    console.log(`Error setting item through Keychain with error: ${error}`);
   }
 };
 const storeDataAsyncStorage = async (data: StoreDataType) => {
@@ -66,6 +83,17 @@ const getDataAsyncStorage = async (key: string) => {
     console.log(`Error setting item through AsyncStorage with error: ${error}`);
   }
 };
+const getDataKeychain = async (key: string) => {
+  try {
+    const response = await Keychain.getGenericPassword({
+      service: key,
+    });
+    // const parsedResponse = JSON.parse(response ?? "");
+    console.log(`AsyncStorage gave this response: ${response}`);
+  } catch (error) {
+    console.log(`Error setting item through AsyncStorage with error: ${error}`);
+  }
+};
 
 const removeDataAsyncStorage = async (key: string) => {
   try {
@@ -97,13 +125,29 @@ const clearEntireStorageAsyncStorage = async () => {
 };
 
 export const storeData = async (data: AllStoreDataType) => {
-  if (data.type === "async-storage") {
-    await storeDataAsyncStorage(data.data);
-    return;
-  }
-  if (data.type === "secure-store") {
-    await storeDataSecureStore(data.data);
-    return;
+  // if (data.type === "async-storage") {
+  //   await storeDataAsyncStorage(data.data);
+  //   return;
+  // }
+  // if (data.type === "secure-store") {
+  //   await storeDataSecureStore(data.data);
+  //   return;
+  // }
+  // if (data.type === "keychain") {
+  //   await storeDataKeychain(data.data);
+  //   return;
+  // }
+
+  switch (data.type) {
+    case "async-storage":
+      await storeDataAsyncStorage(data.data);
+      break;
+    case "secure-store":
+      await storeDataSecureStore(data.data);
+      break;
+    case "keychain":
+      await storeDataKeychain(data.data);
+      break;
   }
 };
 
@@ -114,6 +158,10 @@ export const getData = async (key: string, type: StorageType) => {
   }
   if (type === "secure-store") {
     await getDataSecureStore(key);
+    return;
+  }
+  if (type === "keychain") {
+    await getDataKeychain(key);
     return;
   }
 };

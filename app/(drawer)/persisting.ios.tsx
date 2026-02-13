@@ -21,7 +21,7 @@ export default function Persisting() {
                 key: "async-store-key",
                 value: ["Testing this out", 80, "yes", true],
               },
-              type: "secure-store",
+              type: "keychain",
             });
           }}
         >
@@ -31,7 +31,7 @@ export default function Persisting() {
           className='bg-red-900 text-white rounded-lg flex-1 text-xl font-semibold'
           size='xl'
           variant='solid'
-          onPress={() => getData("async-store-key", "secure-store")}
+          onPress={() => getData("async-store-key", "keychain")}
         >
           <ButtonText>Get Data</ButtonText>
         </Button>
