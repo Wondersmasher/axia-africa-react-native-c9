@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "bundleIdentifier": "com.farminnovation.axiaafricareactnativec9"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.farminnovation.axiaafricareactnativec9"
     },
     "web": {
       "bundler": "metro",
@@ -54,6 +56,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "42f60e04-92b2-4743-a530-176b35d4163e"
+      }
+    },
+    "owner": "axia-africa"
   }
 }

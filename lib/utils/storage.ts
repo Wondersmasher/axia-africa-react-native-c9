@@ -38,7 +38,9 @@ const storeDataKeychain = async (data: StoreDataType) => {
         "You did not provide any valid value. Is it a bug or a FEATURE!",
       );
     const stringifiedValue = JSON.stringify(data.value);
-    await Keychain.setGenericPassword(data.key, stringifiedValue);
+    await Keychain.setGenericPassword(data.key, stringifiedValue, {
+      service: data.key,
+    });
     console.log(
       `The item was stored properly through Keychain with key: ${data.key} and value: ${stringifiedValue}`,
     );
@@ -85,13 +87,15 @@ const getDataAsyncStorage = async (key: string) => {
 };
 const getDataKeychain = async (key: string) => {
   try {
-    const response = await Keychain.getGenericPassword({
-      service: key,
-    });
-    // const parsedResponse = JSON.parse(response ?? "");
-    console.log(`AsyncStorage gave this response: ${response}`);
+    const response: Keychain.UserCredentials | false =
+      await Keychain.getGenericPassword({
+        service: key,
+      });
+
+    if (response === false) return;
+    console.log(JSON.parse(response.password ?? ""));
   } catch (error) {
-    console.log(`Error setting item through AsyncStorage with error: ${error}`);
+    console.log(`Error setting item through Keychain with error: ${error}`);
   }
 };
 
