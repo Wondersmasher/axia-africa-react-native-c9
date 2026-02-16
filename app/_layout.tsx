@@ -12,6 +12,8 @@ import { Stack } from "expo-router";
 import "../global.css";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { useEffect } from "react";
+import { useShallow } from "zustand/shallow";
 
 // export const unstable_settings = {
 //   anchor: "(tabs)",
@@ -20,8 +22,18 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-  const { user } = useSession((state) => state);
+  const {
+    user,
+    actions: { retrieveUserDetailsFromStorage },
+  } = useSession(
+    useShallow((state) => ({ user: state.user, actions: state.actions })),
+  );
 
+  useEffect(() => {
+    retrieveUserDetailsFromStorage();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <GluestackUIProvider mode='light'>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

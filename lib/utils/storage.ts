@@ -70,6 +70,8 @@ const getDataSecureStore = async (key: string) => {
     const response = await SecureStore.getItemAsync(key);
     // const parsedResponse = JSON.parse(response ?? "");
     console.log(`Secure Storage gave this response: ${response}`);
+    if (!response) return;
+    return JSON.parse(response);
   } catch (error) {
     console.log(
       `Error setting item through Secure Storage with error: ${error}`,
@@ -81,6 +83,8 @@ const getDataAsyncStorage = async (key: string) => {
     const response = await AsyncStorage.getItem(key);
     // const parsedResponse = JSON.parse(response ?? "");
     console.log(`AsyncStorage gave this response: ${response}`);
+    if (!response) return;
+    return JSON.parse(response);
   } catch (error) {
     console.log(`Error setting item through AsyncStorage with error: ${error}`);
   }
@@ -93,7 +97,8 @@ const getDataKeychain = async (key: string) => {
       });
 
     if (response === false) return;
-    console.log(JSON.parse(response.password ?? ""));
+    console.log("response from keychain", JSON.parse(response.password ?? ""));
+    return JSON.parse(response.password);
   } catch (error) {
     console.log(`Error setting item through Keychain with error: ${error}`);
   }
@@ -157,16 +162,13 @@ export const storeData = async (data: AllStoreDataType) => {
 
 export const getData = async (key: string, type: StorageType) => {
   if (type === "async-storage") {
-    await getDataAsyncStorage(key);
-    return;
+    return await getDataAsyncStorage(key);
   }
   if (type === "secure-store") {
-    await getDataSecureStore(key);
-    return;
+    return await getDataSecureStore(key);
   }
   if (type === "keychain") {
-    await getDataKeychain(key);
-    return;
+    return await getDataKeychain(key);
   }
 };
 

@@ -1,10 +1,11 @@
-import { CustomInput } from "@/components";
+import { Button, ButtonSpinner, ButtonText, CustomInput } from "@/components";
 import { useSession } from "@/store";
 import { loginSchema, TLoginSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "expo-router";
 import { useForm } from "react-hook-form";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useShallow } from "zustand/shallow";
 
 export default function ReactHookForm() {
   const {
@@ -25,8 +26,14 @@ export default function ReactHookForm() {
   const role = watch("role");
 
   const {
+    isLoading,
     actions: { logIn },
-  } = useSession((state) => state);
+  } = useSession(
+    useShallow((state) => ({
+      actions: state.actions,
+      isLoading: state.isLoading,
+    })),
+  );
 
   const onSubmit = (data: TLoginSchema) => {
     console.log(data);
@@ -41,7 +48,7 @@ export default function ReactHookForm() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} className='bg-red-200'>
       <View style={styles.viewStyle}>
         <Text style={styles.textElement}>Sign in to view all pages!</Text>
         <CustomInput
@@ -49,12 +56,26 @@ export default function ReactHookForm() {
           name='email'
           placeholder='hello@gmail.com'
           label='Email'
+          textInputContainer={{
+            backgroundColor: "transparent",
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "black",
+          }}
+          placeholderTextColor='black'
         />
         <CustomInput
           control={control}
           name='name'
           placeholder='John Doe'
           label='Full name'
+          textInputContainer={{
+            backgroundColor: "transparent",
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "black",
+          }}
+          placeholderTextColor='black'
         />
         <View style={{ flexDirection: "column" }}>
           <View
@@ -64,45 +85,36 @@ export default function ReactHookForm() {
               gap: 20,
             }}
           >
-            <Pressable
-              style={[
-                styles.button,
-                {
-                  flex: 1,
-                },
-              ]}
+            <Button
               onPress={() => setValue("role", "user")}
+              className='bg-red-900 flex-1'
             >
-              <Text style={[styles.buttonText, { textAlign: "center" }]}>
-                User
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[
-                styles.button,
-                {
-                  flex: 1,
-                  width: "100%",
-                },
-              ]}
+              <ButtonText>User</ButtonText>
+            </Button>
+            <Button
               onPress={() => setValue("role", "admin")}
+              className='bg-red-900 flex-1'
             >
-              <Text style={[styles.buttonText, { textAlign: "center" }]}>
-                Admin
-              </Text>
-            </Pressable>
+              <ButtonText> Admin</ButtonText>
+            </Button>
+
             <Text>{role}</Text>
           </View>
           {errors.role && (
             <Text style={{ color: "red" }}>{errors.role.message}</Text>
           )}
         </View>
-        <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.buttonText}>Log in to your account</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => createDetails()}>
-          <Text style={styles.buttonText}>Create dummy details</Text>
-        </Pressable>
+        <Button onPress={handleSubmit(onSubmit)} className='bg-red-900'>
+          <ButtonText>
+            {isLoading ? "Logging in..." : `Log in to your account`}
+          </ButtonText>
+          {isLoading && <ButtonSpinner color={"white"} size={"small"} />}
+        </Button>
+
+        <Button onPress={createDetails} className='bg-red-900'>
+          <ButtonText>Create dummy details</ButtonText>
+        </Button>
+
         <Link href='/(drawer)'>Go to drawer</Link>
         <Link href='/(dynamic)'>Go to dynamic page</Link>
         <Link href='/native-wind'>Go to Native Wind page</Link>
@@ -113,7 +125,7 @@ export default function ReactHookForm() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
     flex: 1,
   },
   viewStyle: {
