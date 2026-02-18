@@ -120,7 +120,20 @@ const removeDataSecureStore = async (key: string) => {
       `KEY: ${key} was deleted successfully. Cheers!`,
     );
   } catch (error) {
-    console.log(`Error setting item through AsyncStorage with error: ${error}`);
+    console.log(`Error setting item through Secure Store with error: ${error}`);
+  }
+};
+const removeDataKeyChain = async (key: string) => {
+  try {
+    await Keychain.resetGenericPassword({
+      service: key,
+    });
+    Alert.alert(
+      `Deleted from Keychain`,
+      `KEY: ${key} was deleted successfully. Cheers!`,
+    );
+  } catch (error) {
+    console.log(`Error setting item through Keychain with error: ${error}`);
   }
 };
 
@@ -183,6 +196,10 @@ export const removeData = async (key: string, type: StorageType) => {
   }
   if (type === "secure-store") {
     await removeDataSecureStore(key);
+    return;
+  }
+  if (type === "keychain") {
+    await removeDataKeyChain(key);
     return;
   }
 };

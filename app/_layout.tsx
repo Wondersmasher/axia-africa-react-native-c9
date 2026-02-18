@@ -12,15 +12,25 @@ import { Stack } from "expo-router";
 import "../global.css";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
+
+import * as SplashScreen from "expo-splash-screen";
 
 // export const unstable_settings = {
 //   anchor: "(tabs)",
 // };
 
+SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [isReady, setIsReady] = useState(false);
 
   const {
     user,
@@ -30,10 +40,22 @@ export default function RootLayout() {
   );
 
   useEffect(() => {
-    retrieveUserDetailsFromStorage();
+    try {
+      retrieveUserDetailsFromStorage();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsReady(true);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hide();
+    }
+  }, [isReady]);
   return (
     <GluestackUIProvider mode='light'>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
