@@ -56,6 +56,10 @@ export default function Layout() {
         name='persisting'
         options={{ headerShown: false, title: "Persisting" }}
       />
+      <Drawer.Screen
+        name='camera'
+        options={{ headerShown: false, title: "Camera" }}
+      />
     </Drawer>
   );
 }
