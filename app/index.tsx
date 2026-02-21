@@ -36,7 +36,7 @@ export default function ReactHookForm() {
   );
 
   const onSubmit = (data: TLoginSchema) => {
-    console.log(data);
+    // console.log(data);
     logIn(data);
     reset();
   };

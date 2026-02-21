@@ -52,8 +52,12 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    console.log("isReady", isReady);
     if (isReady) {
-      SplashScreen.hide();
+      setTimeout(() => {
+        console.log("SplashScreen.hide() inside timeout");
+        SplashScreen.hide();
+      }, 1000);
     }
   }, [isReady]);
   return (
