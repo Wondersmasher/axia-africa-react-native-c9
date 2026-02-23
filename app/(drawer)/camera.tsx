@@ -129,14 +129,16 @@ export default function App() {
     setZoomLevel((prev) => (prev > 0 ? prev - 0.1 : 0));
   };
 
-  const handleSaveToMediaLibrary = async () => {
-    if (!capturedPicture) return;
+  const handleSaveToMediaLibrary = async (media: string) => {
+    if (!media) return;
 
-    await saveToLibraryAsync(capturedPicture);
+    await saveToLibraryAsync(media);
     Alert.alert(
       "Saved!",
-      "Your picture was saved to your media library successfully.\n Cheers!",
+      "Your item was saved to your media library successfully.\n Cheers!",
     );
+    setCapturedPicture("");
+    setCapturedVideo("");
   };
 
   if (capturedPicture) {
@@ -145,7 +147,7 @@ export default function App() {
         <Image source={{ uri: capturedPicture }} className='size-full flex-1' />
         <View className='absolute bottom-3 right-2 '>
           <TouchableOpacity
-            onPress={handleSaveToMediaLibrary}
+            onPress={() => handleSaveToMediaLibrary(capturedPicture)}
             className='rounded-full p-2 bg-black/50'
           >
             <Ionicons
@@ -164,7 +166,7 @@ export default function App() {
         <VideoView player={videoPlayer} nativeControls />
         <View className='absolute bottom-3 right-2'>
           <TouchableOpacity
-            onPress={handleSaveToMediaLibrary}
+            onPress={() => handleSaveToMediaLibrary(capturedVideo)}
             className='rounded-full p-2 bg-black/50'
           >
             <Ionicons
@@ -179,10 +181,11 @@ export default function App() {
   }
 
   return (
-    <View className='flex-1 justify-center'>
+    <View style={{ flex: 1 }} className='relative'>
       <CameraView
         ref={cameraRef}
-        className='flex-1'
+        // className='flex-1'
+        style={{ flex: 1 }}
         facing={facing} // done
         enableTorch={isTorchEnabled} // done
         mode={mode} // done
