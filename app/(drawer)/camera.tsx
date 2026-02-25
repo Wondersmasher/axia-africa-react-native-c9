@@ -1,3 +1,4 @@
+import { CapturedPictureViewing, CapturedVideoViewing } from "@/components";
 import { cn } from "@/lib";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
@@ -7,12 +8,11 @@ import {
   useMicrophonePermissions,
 } from "expo-camera";
 import { saveToLibraryAsync, usePermissions } from "expo-media-library";
-import { VideoView, useVideoPlayer } from "expo-video";
+import { useVideoPlayer } from "expo-video";
 import { useRef, useState } from "react";
 import {
   Alert,
   Button,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -122,18 +122,21 @@ export default function App() {
   };
 
   const handleAddZoom = () => {
-    // if (zoomLevel === 1) return;
     setZoomLevel((prev) => (prev < 1 ? prev + 0.1 : 1));
   };
   const handleReduceZoom = () => {
     setZoomLevel((prev) => (prev > 0 ? prev - 0.1 : 0));
   };
 
+  const handleCaptureOrRecordingReset = () => {
+    setCapturedPicture("");
+    setCapturedVideo("");
+  };
+
   const handleSaveToMediaLibrary = async (media: string) => {
     if (!media) return;
     await saveToLibraryAsync(media);
-    setCapturedPicture("");
-    setCapturedVideo("");
+    handleCaptureOrRecordingReset();
     Alert.alert(
       "Saved!",
       "Your item was saved to your media library successfully.\n Cheers!",
@@ -142,44 +145,21 @@ export default function App() {
 
   if (capturedPicture) {
     return (
-      <View className='flex-1 justify-center'>
-        <Image source={{ uri: capturedPicture }} className='size-full flex-1' />
-        <View className='absolute bottom-3 right-2 '>
-          <TouchableOpacity
-            onPress={() => handleSaveToMediaLibrary(capturedPicture)}
-            className='rounded-full p-2 bg-black/50'
-          >
-            <Ionicons
-              name='add-circle-outline'
-              size={ICON_SIZE}
-              color={ICON_COLOR}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <CapturedPictureViewing
+        capturedPicture={capturedPicture}
+        handleSaveToMediaLibrary={handleSaveToMediaLibrary}
+        handleCaptureOrRecordingReset={handleCaptureOrRecordingReset}
+      />
     );
   }
   if (capturedVideo) {
     return (
-      <View style={{ flex: 1 }}>
-        <VideoView
-          player={videoPlayer}
-          nativeControls
-          style={{ width: "100%", height: "100%" }}
-        />
-        <View className='absolute bottom-3 right-2'>
-          <TouchableOpacity
-            onPress={() => handleSaveToMediaLibrary(capturedVideo)}
-            className='rounded-full p-2 bg-black/50'
-          >
-            <Ionicons
-              name='add-circle-outline'
-              size={ICON_SIZE}
-              color={ICON_COLOR}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <CapturedVideoViewing
+        videoPlayer={videoPlayer}
+        capturedVideo={capturedVideo}
+        handleSaveToMediaLibrary={handleSaveToMediaLibrary}
+        handleCaptureOrRecordingReset={handleCaptureOrRecordingReset}
+      />
     );
   }
 
