@@ -131,14 +131,13 @@ export default function App() {
 
   const handleSaveToMediaLibrary = async (media: string) => {
     if (!media) return;
-
     await saveToLibraryAsync(media);
+    setCapturedPicture("");
+    setCapturedVideo("");
     Alert.alert(
       "Saved!",
       "Your item was saved to your media library successfully.\n Cheers!",
     );
-    setCapturedPicture("");
-    setCapturedVideo("");
   };
 
   if (capturedPicture) {
@@ -162,8 +161,12 @@ export default function App() {
   }
   if (capturedVideo) {
     return (
-      <View className='flex-1 justify-center'>
-        <VideoView player={videoPlayer} nativeControls />
+      <View style={{ flex: 1 }}>
+        <VideoView
+          player={videoPlayer}
+          nativeControls
+          style={{ width: "100%", height: "100%" }}
+        />
         <View className='absolute bottom-3 right-2'>
           <TouchableOpacity
             onPress={() => handleSaveToMediaLibrary(capturedVideo)}
@@ -207,7 +210,12 @@ export default function App() {
             mode === "picture" && "bg-black/50",
           )}
         >
-          <Text className={cn("text-sm", mode === "picture" && "font-bold")}>
+          <Text
+            className={cn(
+              "text-sm text-white",
+              mode === "picture" && "font-bold",
+            )}
+          >
             Picture
           </Text>
         </TouchableOpacity>
@@ -215,7 +223,12 @@ export default function App() {
           onPress={() => setMode("video")}
           className={cn("rounded-full p-2", mode === "video" && "bg-black/50")}
         >
-          <Text className={cn("text-sm", mode === "video" && "font-bold")}>
+          <Text
+            className={cn(
+              "text-sm text-white",
+              mode === "video" && "font-bold",
+            )}
+          >
             Video
           </Text>
         </TouchableOpacity>
